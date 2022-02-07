@@ -1,9 +1,10 @@
 <script>
+  import Table from "./components/Table.svelte";
 	export let name;
   const sate = {
     url: 'https://satdash.wpengine.com/wp-json/wp/v2/satellites?count=2'
   }
-  let sats = []
+  export let sats = []
   const saludos = {
     eng: 'hello',
     spa: 'hola',
@@ -25,7 +26,6 @@
     // const showSats = document.querySelector('ul')
     // const sat = document.createElement('li')
 	}
-
 </script>
 
 <main>
@@ -34,7 +34,7 @@
   <button on:click={handleClick}>
     Load Table
   </button>
-
+  <Table satellites={sats}/>
   <ul>
     {#each sats as sat}
     <li>Sat ID: {sat.id}</li>
