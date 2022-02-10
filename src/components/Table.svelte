@@ -1,29 +1,39 @@
 <script>
   import Search from './Search.svelte'
   export let satellites
+  export let search
+  console.log(satellites)
 </script>
 
-<Search satellites = {satellites} />
+<Search satellites = {satellites} search={search}/>
 <div>
   <table>
     <thead>
       <tr>
-        <th colspan="6">Titulo de la tabla!</th>
+        <th colspan="5">Satellites</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>uno</td>
-        <td>dos</td>
-        <td>tres</td>
-        <td>cuatro</td>
-        <td>cinco</td>
-        <td>seis</td>
+        <td>Name</td>
+        <td>Norad ID</td>
+        <td>Country of Launch</td>
+        <td>Orbit Type</td>
+        <td>Launch Date</td>
       </tr>
+      {#each satellites as sat}
+        <tr>
+          <td>{(sat.ag_meta.Name ? sat.ag_meta.Name : 'No Data')}</td>
+          <td>{(sat.ag_meta.NoradId ? sat.ag_meta.NoradId : 'No Data')}</td>
+          <td>{(sat.ag_meta.countryOfLaunch ? sat.ag_meta.countryOfLaunch : 'No Data')}</td>
+          <td>{(sat.ag_meta.OrbitType ? sat.ag_meta.OrbitType : 'No Data')}</td>
+          <td>{(sat.ag_meta.LaunchDate ? sat.ag_meta.LaunchDate : 'No Data')}</td>
+        </tr>
+      {/each }
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="6">este es el footer!</td>
+        <td colspan="5">este es el footer!</td>
       </tr>
     </tfoot>
   </table>
