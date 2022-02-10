@@ -7,6 +7,7 @@
     url: 'https://satdash.wpengine.com/wp-json/wp/v2/satellites?count=2'
   }
   export let sats = []
+  let originalSats = []
   const saludos = {
     eng: 'hello',
     spa: 'hola',
@@ -16,20 +17,22 @@
   onMount( () => {
     fetch(sate.url)
     .then( res => res.json())
-    .then( data => sats = data)
+    .then( data => {
+      sats = [...data]
+      originalSats = [...sats]
+    })
   })
 
-  const handleCl = () => console.log(sats);
   const changeName = () => name = 'Jose'
 	function handleClick() {
     console.log(sats);
 	}
 
-  function handleSearch(e) {
+  const handleSearch = (e) => {
     let searchID = e.target.value
-    const result = sats.filter(s => s.id.toString().includes(searchID))
+    const result = originalSats.filter(s => s.id.toString().includes(searchID))
+    // console.log(result);
     sats = [...result]
-    console.log(result);
   }
 </script>
 
