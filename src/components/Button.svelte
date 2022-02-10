@@ -1,5 +1,4 @@
 <script>
-  export let handleCl
   export let updateName
 </script>
 

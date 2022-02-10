@@ -2,7 +2,7 @@
   import Search from './Search.svelte'
   export let satellites
   export let search
-  console.log(satellites)
+  // console.log(satellites)
 </script>
 
 <Search satellites = {satellites} search={search}/>
