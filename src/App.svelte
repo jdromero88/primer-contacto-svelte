@@ -1,5 +1,7 @@
 <script>
-  import Table from "./components/Table.svelte";
+  import { onMount } from 'svelte'
+  import Table from "./components/Table.svelte"
+  import Button from "./components/Button.svelte"
 	export let name;
   const sate = {
     url: 'https://satdash.wpengine.com/wp-json/wp/v2/satellites?count=2'
@@ -11,30 +13,31 @@
     gua: "mba'eichapa"
   }
 
-  function getSats() {
+  onMount( () => {
     fetch(sate.url)
     .then( res => res.json())
     .then( data => sats = data)
-  }
+  })
 
-  let promise = getSats();
-
+  const handleCl = () => console.log(sats);
+  const changeName = () => name = 'Jose'
 	function handleClick() {
-		// promise = getSats();
-    // promise = Object.entries(promise);
     console.log(sats);
-    // const showSats = document.querySelector('ul')
-    // const sat = document.createElement('li')
 	}
+
+  function handleSearch(e) {
+    let searchID = e.target.value
+    const result = sats.filter(s => s.id.toString().includes(searchID))
+    sats = [...result]
+    console.log(result);
+  }
 </script>
 
 <main>
 	<h1>{saludos.spa + ' ' + name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-  <button on:click={handleClick}>
-    Load Table
-  </button>
-  <Table satellites={sats}/>
+  <Button updateName={changeName} handleCl={handleClick} />
+  <Table satellites={sats} search={handleSearch}/>
   <ul>
     {#each sats as sat}
     <li>Sat ID: {sat.id}</li>
