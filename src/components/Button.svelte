@@ -1,9 +1,10 @@
 <script>
-  export let updateName
+  export let handleClick
+  export let text = 'Click Me'
 </script>
 
-<button on:click={updateName}>
-  Hola Jose!
+<button on:click={handleClick}>
+  {text}!
 </button>
 
 <style>

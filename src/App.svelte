@@ -4,13 +4,15 @@
   import Button from "./components/Button.svelte"
 
 	export let name;
-  export let sats = []
-  let originalSats = []
-  let uniqueCountryOfLaunch = []
-  let countryOfLaunch = []
 
-  const sate = {
-    url: 'https://satdash.wpengine.com/wp-json/wp/v2/satellites?count=2'
+  const flati = {
+    originalUsers: [],
+    users: [],
+    pronouns: []
+  }
+
+  const url = {
+    flatilife: 'https://immense-crag-19841.herokuapp.com/users'
   }
   
   const saludos = {
@@ -19,59 +21,59 @@
     gua: "mba'eichapa"
   }
 
-  const removeDuplicatesCoL = (array) => {
-    console.log('remove duplicates Country of Launch')
+  const removeDuplicatesFromArray = (array) => {
+    let cleanArray = []
     // remove duplicates duplicates values from array   
-    if (array)
-      uniqueCountryOfLaunch = [...new Set(array)]
+    if (!array)
+      return 
+
+    return cleanArray = [...new Set(array)]
   }
 
   onMount( () => {
-    fetch(sate.url)
-    .then( res => res.json())
+    fetch( url.flatilife )
+    .then( data => data.json())
     .then( data => {
-      originalSats = [...data]
-      sats = [...data]
-      sats.forEach( sat => countryOfLaunch.push( sat.ag_meta.countryOfLaunch ) )
-      removeDuplicatesCoL( countryOfLaunch )
+      flati.users = [...data]
+      flati.originalUsers = [...data]
+      flati.originalUsers.forEach( user => flati.pronouns.push( user.pronouns ) )
+      flati.pronouns = [...removeDuplicatesFromArray( flati.pronouns )]
     })
   })
 
-  const changeName = () => {
+  const handleClick = () => {
     name = 'Jose'
-    console.log(sats)
+    console.log(flati.users)
   }
-	function handleClick() {
-    console.log(sats)
-	}
 
   const handleSearch = (e) => {
-    let searchID = e.target.value
-    const result = originalSats.filter(s => s.id.toString().includes(searchID))
-    sats = [...result]
+    let searchID = e.target.value.toLowerCase()
+    const result = flati.originalUsers.filter( u => u.last_name.toLowerCase().includes(searchID))
+    flati.users = [...result]
   }
 
   const filterBy = (e) => {
     let filter = e.target.value
     console.log(filter);
-    const result = originalSats.filter( s => s.ag_meta.countryOfLaunch.includes(filter))
-    sats = [...result]
+    const result = flati.originalUsers.filter( u => u.pronouns.includes( filter ) )
+    flati.users = [...result]
   }
 </script>
 
 <main>
 	<h1>{saludos.spa + ' ' + name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-  <Button updateName={changeName} />
+  <Button handleClick={handleClick} text={'Hola Jose'}/>
+  <Button handleClick={handleClick}/>
   <Table
-    satellites={sats}
+    dataset={flati}
     search={handleSearch}
-    selectOptions={uniqueCountryOfLaunch}
+    selectOptions={flati.pronouns}
     selected={filterBy}
   />
   <ul>
-    {#each sats as sat}
-    <li>Sat ID: {sat.id}</li>
+    {#each flati.users as u}
+    <li>User ID: {u.id}</li>
     {/each}
   </ul>
 </main>
