@@ -5,9 +5,15 @@
   export let search
   export let selectOptions
   export let selected
+  export let options
+  export let searchBy
 </script>
 
-<Search search={search} />
+<Search
+  search={search}
+  options={options}
+  searchBy={searchBy}
+/>
 <Select
   selectOptions={selectOptions}
   selected={selected}

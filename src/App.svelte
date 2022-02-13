@@ -8,7 +8,9 @@
   const flati = {
     originalUsers: [],
     users: [],
-    pronouns: []
+    pronouns: [],
+    options: ['first_name', 'last_name', 'username', 'pronouns'],
+    searchBy: 'first_name'
   }
 
   const url = {
@@ -47,17 +49,23 @@
   }
 
   const handleSearch = (e) => {
-    let searchID = e.target.value.toLowerCase()
-    const result = flati.originalUsers.filter( u => u.last_name.toLowerCase().includes(searchID))
+    let search = e.target.value.toLowerCase()
+    const result = flati.originalUsers.filter( u => u[flati.searchBy].toLowerCase().includes(search))
     flati.users = [...result]
+  }
+
+  const searchBy = (e) => {
+    let search = e.target.value
+    flati.searchBy = search
   }
 
   const filterBy = (e) => {
     let filter = e.target.value
-    console.log(filter);
+    // console.log(filter);
     const result = flati.originalUsers.filter( u => u.pronouns.includes( filter ) )
     flati.users = [...result]
   }
+
 </script>
 
 <main>
@@ -70,6 +78,8 @@
     search={handleSearch}
     selectOptions={flati.pronouns}
     selected={filterBy}
+    options={flati.options}
+    searchBy={searchBy}
   />
   <ul>
     {#each flati.users as u}
