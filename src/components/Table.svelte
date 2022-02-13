@@ -1,11 +1,17 @@
 <script>
   import Search from './Search.svelte'
+  import Select from './Select.svelte'
   export let satellites
   export let search
-  // console.log(satellites)
+  export let selectOptions
+  export let selected
 </script>
 
-<Search satellites = {satellites} search={search}/>
+<Search search={search} />
+<Select
+  selectOptions={selectOptions}
+  selected={selected}
+/>
 <div>
   <table>
     <thead>

@@ -3,7 +3,7 @@
 </script>
 
 <div>
-  <label for="search" aria-hidden="true" hidden>Search:</label>
+  <label for="search" aria-hidden="true" hidden>Search</label>
   <input type="search" name="search" id="search" placeholder="Search..." on:input={search}>
 </div>
 
