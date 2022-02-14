@@ -76,7 +76,7 @@
       modal.style.display = 'none'
 
     flati.modalShown = !flati.modalShown
-    console.log(modal)
+    // console.log(modal)
   }
 </script>
 
@@ -93,7 +93,7 @@
     options={flati.options}
     searchBy={searchBy}
   />
-  <Modal />
+  <Modal closeModal={handleModal}/>
   <ul>
     {#each flati.users as u}
     <li>User ID: {u.id}</li>

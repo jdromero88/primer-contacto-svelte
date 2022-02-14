@@ -107,3 +107,13 @@ Then, from within your project folder:
 npm run build
 surge public my-project.surge.sh
 ```
+
+### This project is using [surge](https://surge.sh/) to deploy
+If you have surge installed
+you can just deploy by running
+
+```bash
+surge ./public/
+```
+this will deploy the project to the current domain specified on the `CNAME` file which is `primer-contacto-svelte.surge.sh` or to the custom domain `pcs.josedromero.com`
+
