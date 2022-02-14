@@ -1,11 +1,23 @@
 <script>
   import Search from './Search.svelte'
-  export let satellites
+  import Select from './Select.svelte'
+  export let dataset
   export let search
-  // console.log(satellites)
+  export let selectOptions
+  export let selected
+  export let options
+  export let searchBy
 </script>
 
-<Search satellites = {satellites} search={search}/>
+<Search
+  search={search}
+  options={options}
+  searchBy={searchBy}
+/>
+<Select
+  selectOptions={selectOptions}
+  selected={selected}
+/>
 <div>
   <table>
     <thead>
@@ -15,19 +27,19 @@
     </thead>
     <tbody>
       <tr>
-        <td>Name</td>
-        <td>Norad ID</td>
-        <td>Country of Launch</td>
-        <td>Orbit Type</td>
-        <td>Launch Date</td>
+        <td>F Name</td>
+        <td>L Name</td>
+        <td>Cohort</td>
+        <td>Pronouns</td>
+        <td>Username</td>
       </tr>
-      {#each satellites as sat}
+      {#each dataset.users as user}
         <tr>
-          <td>{(sat.ag_meta.Name ? sat.ag_meta.Name : 'No Data')}</td>
-          <td>{(sat.ag_meta.NoradId ? sat.ag_meta.NoradId : 'No Data')}</td>
-          <td>{(sat.ag_meta.countryOfLaunch ? sat.ag_meta.countryOfLaunch : 'No Data')}</td>
-          <td>{(sat.ag_meta.OrbitType ? sat.ag_meta.OrbitType : 'No Data')}</td>
-          <td>{(sat.ag_meta.LaunchDate ? sat.ag_meta.LaunchDate : 'No Data')}</td>
+          <td>{(user.first_name ? user.first_name : 'No Data')}</td>
+          <td>{(user.last_name ? user.last_name : 'No Data')}</td>
+          <td>{(user.cohort.name ? user.cohort.name : 'No Data')}</td>
+          <td>{(user.pronouns ? user.pronouns : 'No Data')}</td>
+          <td>{(user.username ? user.username : 'No Data')}</td>
         </tr>
       {/each }
     </tbody>

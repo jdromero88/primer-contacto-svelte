@@ -1,49 +1,102 @@
 <script>
-  import { onMount } from 'svelte'
+  import { afterUpdate, onMount } from 'svelte'
   import Table from "./components/Table.svelte"
   import Button from "./components/Button.svelte"
+  import Modal from "./components/Modal.svelte"
+
 	export let name;
-  const sate = {
-    url: 'https://satdash.wpengine.com/wp-json/wp/v2/satellites?count=2'
+
+  const flati = {
+    originalUsers: [],
+    users: [],
+    pronouns: [],
+    options: ['first_name', 'last_name', 'username', 'pronouns'],
+    searchBy: 'first_name',
+    modalShown: false,
   }
-  export let sats = []
-  let originalSats = []
+
+  const url = {
+    flatilife: 'https://immense-crag-19841.herokuapp.com/users'
+  }
+  
   const saludos = {
     eng: 'hello',
     spa: 'hola',
     gua: "mba'eichapa"
   }
 
+  const removeDuplicatesFromArray = (array) => {
+    let cleanArray = []
+    // remove duplicates duplicates values from array   
+    if (!array)
+      return 
+
+    return cleanArray = [...new Set(array)]
+  }
+
   onMount( () => {
-    fetch(sate.url)
-    .then( res => res.json())
+    fetch( url.flatilife )
+    .then( data => data.json())
     .then( data => {
-      sats = [...data]
-      originalSats = [...sats]
+      flati.users = [...data]
+      flati.originalUsers = [...data]
+      flati.originalUsers.forEach( user => flati.pronouns.push( user.pronouns ) )
+      flati.pronouns = [...removeDuplicatesFromArray( flati.pronouns )]
     })
   })
 
-  const changeName = () => name = 'Jose'
-	function handleClick() {
-    console.log(sats);
-	}
+  const handleClick = () => {
+    name = 'Jose'
+    console.log(flati.users)
+  }
 
   const handleSearch = (e) => {
-    let searchID = e.target.value
-    const result = originalSats.filter(s => s.id.toString().includes(searchID))
-    // console.log(result);
-    sats = [...result]
+    let search = e.target.value.toLowerCase()
+    const result = flati.originalUsers.filter( u => u[flati.searchBy].toLowerCase().includes(search))
+    flati.users = [...result]
+  }
+
+  const searchBy = (e) => {
+    let search = e.target.value
+    flati.searchBy = search
+  }
+
+  const filterBy = (e) => {
+    let filter = e.target.value
+    // console.log(filter);
+    const result = flati.originalUsers.filter( u => u.pronouns.includes( filter ) )
+    flati.users = [...result]
+  }
+
+  const handleModal = () => {
+    const modal = document.querySelector('.modal')
+    if (!flati.modalShown)
+      modal.style.display = 'block'
+    else
+      modal.style.display = 'none'
+
+    flati.modalShown = !flati.modalShown
+    console.log(modal)
   }
 </script>
 
 <main>
 	<h1>{saludos.spa + ' ' + name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-  <Button updateName={changeName} handleCl={handleClick} />
-  <Table satellites={sats} search={handleSearch}/>
+  <Button handleClick={handleClick} text={'Hola Jose'}/>
+  <Button handleClick={handleModal} text={'Open Modal'}/>
+  <Table
+    dataset={flati}
+    search={handleSearch}
+    selectOptions={flati.pronouns}
+    selected={filterBy}
+    options={flati.options}
+    searchBy={searchBy}
+  />
+  <Modal />
   <ul>
-    {#each sats as sat}
-    <li>Sat ID: {sat.id}</li>
+    {#each flati.users as u}
+    <li>User ID: {u.id}</li>
     {/each}
   </ul>
 </main>
