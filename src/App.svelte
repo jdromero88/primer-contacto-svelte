@@ -1,7 +1,8 @@
 <script>
-  import { onMount } from 'svelte'
+  import { afterUpdate, onMount } from 'svelte'
   import Table from "./components/Table.svelte"
   import Button from "./components/Button.svelte"
+  import Modal from "./components/Modal.svelte"
 
 	export let name;
 
@@ -10,7 +11,8 @@
     users: [],
     pronouns: [],
     options: ['first_name', 'last_name', 'username', 'pronouns'],
-    searchBy: 'first_name'
+    searchBy: 'first_name',
+    modalShown: false,
   }
 
   const url = {
@@ -66,13 +68,23 @@
     flati.users = [...result]
   }
 
+  const handleModal = () => {
+    const modal = document.querySelector('.modal')
+    if (!flati.modalShown)
+      modal.style.display = 'block'
+    else
+      modal.style.display = 'none'
+
+    flati.modalShown = !flati.modalShown
+    console.log(modal)
+  }
 </script>
 
 <main>
 	<h1>{saludos.spa + ' ' + name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
   <Button handleClick={handleClick} text={'Hola Jose'}/>
-  <Button handleClick={handleClick}/>
+  <Button handleClick={handleModal} text={'Open Modal'}/>
   <Table
     dataset={flati}
     search={handleSearch}
@@ -81,6 +93,7 @@
     options={flati.options}
     searchBy={searchBy}
   />
+  <Modal />
   <ul>
     {#each flati.users as u}
     <li>User ID: {u.id}</li>
