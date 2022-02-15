@@ -1,10 +1,26 @@
 <script>
   import { afterUpdate, onMount } from 'svelte'
+
+  import Router from 'svelte-spa-router'
+
+  import Home from './pages/Home.svelte'
+  import About from './pages/About.svelte'
+  import Products from './pages/Products.svelte'
+  import NotFound from './pages/NotFound.svelte'
+
   import Table from "./components/Table.svelte"
   import Button from "./components/Button.svelte"
   import Modal from "./components/Modal.svelte"
 
 	export let name;
+
+  const routes = {
+  "/": Home,
+  "/about": About,
+  "/products": Products,
+
+  "*": NotFound
+}
 
   const flati = {
     originalUsers: [],
@@ -76,11 +92,13 @@
       modal.style.display = 'none'
 
     flati.modalShown = !flati.modalShown
-    console.log(modal)
+    // console.log(modal)
   }
+
 </script>
 
 <main>
+  <Router {routes} />
 	<h1>{saludos.spa + ' ' + name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
   <Button handleClick={handleClick} text={'Hola Jose'}/>
@@ -93,7 +111,7 @@
     options={flati.options}
     searchBy={searchBy}
   />
-  <Modal />
+  <Modal closeModal={handleModal}/>
   <ul>
     {#each flati.users as u}
     <li>User ID: {u.id}</li>
