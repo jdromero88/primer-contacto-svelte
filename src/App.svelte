@@ -8,6 +8,7 @@
   import Products from './pages/Products.svelte'
   import NotFound from './pages/NotFound.svelte'
 
+  import Navigation from './components/Navigation.svelte'
   import Table from "./components/Table.svelte"
   import Button from "./components/Button.svelte"
   import Modal from "./components/Modal.svelte"
@@ -98,6 +99,7 @@
 </script>
 
 <main>
+  <Navigation />
   <Router {routes} />
 	<h1>{saludos.spa + ' ' + name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
