@@ -1,5 +1,13 @@
 <script>
+  import tippy from 'sveltejs-tippy'
+
   export let closeModal
+  export let tippyText = 'Click Me'
+  // Handle tippy
+  const tippyProps = {
+    content: tippyText,
+    placement: "bottom"
+  }
 </script>
 <div id="modal" class="modal">
   <div class="modal__header">
@@ -7,7 +15,7 @@
       <div>Modal title</div>
     </div>
     <div class="buttons">
-      <div class="button__close-modal" on:click={closeModal}>x</div>
+      <div use:tippy={tippyProps} class="button__close-modal" on:click={closeModal}>x</div>
     </div>
   </div>
 

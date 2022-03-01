@@ -33,9 +33,21 @@
   }
 
   const url = {
+    googleAPIKey: 'AIzaSyBXuQRRw4K4W8E4eGHoSFUSrK-ZwpD4Zz4',
+    googleSpreadsheetKey: "1a09uVgZMOQli01YIS7TGvDcKZurys6_eK03ZBY7J5HQ",
+    googleSpreadsheetRange: "Sheet1",
+    googleS: "https://docs.google.com/spreadsheets/d/1CMSgbRGJqSJfwsSftprzC3e-pL6FC2eDEc4xE3BFQwc/edit#gid=0",
     flatilife: 'https://immense-crag-19841.herokuapp.com/users'
   }
-  
+
+  // `https://sheets.googleapis.com/v4/spreadsheets/1CMSgbRGJqSJfwsSftprzC3e-pL6FC2eDEc4xE3BFQwc/`
+
+  // `https://sheets.googleapis.com/v4/spreadsheets/${googleSpreadsheetKey}?key=${googleAPIKey}`
+
+  // `https://sheets.googleapis.com/v4/spreadsheets/1CMSgbRGJqSJfwsSftprzC3e-pL6FC2eDEc4xE3BFQwc/`
+
+  // `https://sheets.googleapis.com/v4/spreadsheets/1a09uVgZMOQli01YIS7TGvDcKZurys6_eK03ZBY7J5HQ?key=AIzaSyBXuQRRw4K4W8E4eGHoSFUSrK-ZwpD4Zz4`
+
   const saludos = {
     eng: 'hello',
     spa: 'hola',
@@ -60,6 +72,10 @@
       flati.originalUsers.forEach( user => flati.pronouns.push( user.pronouns ) )
       flati.pronouns = [...removeDuplicatesFromArray( flati.pronouns )]
     })
+
+    fetch( `https://sheets.googleapis.com/v4/spreadsheets/${url.googleSpreadsheetKey}/values/${url.googleSpreadsheetRange}?key=${url.googleAPIKey}`)
+    .then( data => data.json())
+    .then(data => console.log(data))
   })
 
   const handleClick = () => {
@@ -113,7 +129,7 @@
     options={flati.options}
     searchBy={searchBy}
   />
-  <Modal closeModal={handleModal}/>
+  <Modal closeModal={handleModal} tippyText={'Close Modal'} />
   <ul>
     {#each flati.users as u}
     <li>User ID: {u.id}</li>

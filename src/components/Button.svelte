@@ -1,5 +1,5 @@
 <script>
-  import tippy from "sveltejs-tippy";
+  import tippy from "sveltejs-tippy"
 
   export let handleClick
   export let text = 'Click Me'
@@ -8,8 +8,7 @@
   const tippyProps = {
     content: text,
     placement: "bottom"
-  };
-
+  }
 </script>
 
 <button use:tippy={tippyProps} on:click={handleClick}>
